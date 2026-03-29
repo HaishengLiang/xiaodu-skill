@@ -34,9 +34,14 @@
 - **Token 存储**: 本地 `~/.xiaodu/credentials.json`，客户端自动刷新
 - **客户端**: Python CLI，通过 subprocess 调用 curl 与 Worker 交互
 
-## 部署 Auth 服务
+## Auth 服务
 
-### Vercel
+Auth 服务已内置（部署于 Vercel），开箱即用，**无需自行部署**。
+
+如需自建，可参考 `vercel/` 目录代码自行部署。
+
+### Vercel 部署（如需自建）
+
 ```bash
 cd vercel && vercel deploy
 ```

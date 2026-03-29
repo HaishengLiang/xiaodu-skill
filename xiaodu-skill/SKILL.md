@@ -69,17 +69,6 @@ Token 保存在 `~/.xiaodu/credentials.json`，客户端自动处理刷新。
 | `/auth-url` | GET | 获取百度授权链接 |
 | `/exchange` | POST | 用授权码换取 Token |
 
-### Vercel 部署
-
-```bash
-cd vercel
-vercel deploy
-```
-
-**环境变量配置（在 Vercel Dashboard 中设置）：**
-- `XIAODU_APP_KEY`: 百度 OAuth AppKey
-- `XIAODU_SECRET_KEY`: 百度 OAuth SecretKey
-
 ## 错误处理
 
 | 错误码 | 含义 | 处理方式 |
