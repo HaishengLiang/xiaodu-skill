@@ -34,8 +34,7 @@ def save_credentials(access_token, refresh_token, expires_in):
 def get_auth_url(worker_url):
     try:
         result = subprocess.run(
-            ["curl", "-s",
-             f"{worker_url}/auth-url"],
+            ["curl", "-s", f"{worker_url}/api/auth-url"],
             capture_output=True, text=True, timeout=30
         )
         if result.returncode != 0:
@@ -52,7 +51,7 @@ def exchange_code(worker_url, code):
     try:
         result = subprocess.run(
             ["curl", "-s", "-X", "POST",
-             f"{worker_url}/exchange",
+             f"{worker_url}/api/exchange",
              "-H", "Content-Type: application/json",
              "-d", json.dumps({"code": code})],
             capture_output=True, text=True, timeout=30
@@ -65,52 +64,41 @@ def exchange_code(worker_url, code):
 
 
 def main():
+    print("=== 小度 OAuth 授权 ===\n")
+    
     config = load_config()
     worker_url = get_worker_url(config)
-
+    
     if not worker_url:
-        print("错误: 未设置 XIAODU_WORKER_URL")
-        print(f"请在 {CONFIG_FILE} 中配置")
+        print("错误: 未配置 XIAODU_WORKER_URL")
         sys.exit(1)
-
-    print("=== 小度 OAuth 授权 ===\n")
-
-    auth_url = get_auth_url(worker_url)
-    if not auth_url:
-        sys.exit(1)
-
-    print("请访问以下链接完成授权:\n")
-    print(auth_url)
-    print("\n授权成功后，页面会显示授权码\n")
-
-    if len(sys.argv) > 1:
-        code = sys.argv[1]
-        print(f"=== 换取 Token ===")
-        print(f"授权码: {code}\n")
-
-        result = exchange_code(worker_url, code)
-        if result.get("success"):
-            access_token = result.get("access_token", "")
-            refresh_token = result.get("refresh_token", "")
-            expires_in = result.get("expires_in", 0)
-
-            if access_token and refresh_token:
-                save_credentials(access_token, refresh_token, expires_in)
-                print("✅ 授权成功!")
-                print(f"\nAccess Token: {access_token[:30]}...")
-                print(f"有效期: {expires_in}秒 (约{expires_in // 86400}天)")
-                print("\n现在可以运行其他命令了:")
-                print("  python3 xiaodu.py list")
-            else:
-                print("❌ 授权失败: 返回数据不完整")
-                print(result)
-                sys.exit(1)
-        else:
-            print(f"❌ 授权失败: {result.get('error_description', result.get('error', '未知错误'))}")
-            sys.exit(1)
+    
+    if len(sys.argv) < 2:
+        auth_url = get_auth_url(worker_url)
+        if auth_url:
+            print(f"请访问以下链接完成授权:\n")
+            print(auth_url)
+            print(f"\n授权成功后，页面会显示授权码")
+            print(f"\n获得授权码后，运行:")
+            print(f"  python3 {sys.argv[0]} <授权码>")
+        return
+    
+    code = sys.argv[1]
+    print(f"=== 换取 Token ===")
+    print(f"授权码: {code}\n")
+    
+    result = exchange_code(worker_url, code)
+    if result.get("success"):
+        save_credentials(
+            result["access_token"],
+            result["refresh_token"],
+            result["expires_in"]
+        )
+        print(f"✅ 授权成功!")
+        print(f"\nAccess Token: {result['access_token'][:20]}...")
+        print(f"有效期: {result['expires_in']}秒 (约{result['expires_in']//86400}天)")
     else:
-        print("获得授权码后，运行:")
-        print(f"  python3 {os.path.join(SCRIPT_DIR, 'init_auth.py')} <授权码>")
+        print(f"❌ 授权失败: {result.get('error', '未知错误')}")
 
 
 if __name__ == "__main__":

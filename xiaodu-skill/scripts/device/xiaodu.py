@@ -11,15 +11,15 @@ CACHE_FILE = os.path.join(SCRIPT_DIR, "devices.json")
 
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "../common"))
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "../auth"))
-from common.config import load_config
-from auth.get_token import get_token
+from config import load_config
+from get_token import get_token
 
 
 def mcp_call(tool_name, arguments):
     config = load_config()
     worker_url = config.get("XIAODU_WORKER_URL", "")
 
-    token_result = get_token(worker_url)
+    token_result = get_token()  # 修复：去掉参数
     if token_result.get("error"):
         return None, token_result["error"]
 
