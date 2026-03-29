@@ -35,7 +35,6 @@ def get_auth_url(worker_url):
     try:
         result = subprocess.run(
             ["curl", "-s",
-             "--resolve", "xiaodu-oauth-proxy.knightlhs.workers.dev:443:172.67.203.143",
              f"{worker_url}/auth-url"],
             capture_output=True, text=True, timeout=30
         )
@@ -53,7 +52,6 @@ def exchange_code(worker_url, code):
     try:
         result = subprocess.run(
             ["curl", "-s", "-X", "POST",
-             "--resolve", "xiaodu-oauth-proxy.knightlhs.workers.dev:443:172.67.203.143",
              f"{worker_url}/exchange",
              "-H", "Content-Type: application/json",
              "-d", json.dumps({"code": code})],
