@@ -21,7 +21,7 @@
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
 │   Client    │────▶│  Worker API  │────▶│  百度 OAuth │
-│ (Python CLI)│     │(Vercel/CF)   │     │   服务      │
+│ (Python CLI)│     │  (Vercel)    │     │   服务      │
 └─────────────┘     └──────────────┘     └─────────────┘
        │                                        │
        │              ┌──────────────┐           │
@@ -39,11 +39,6 @@
 ### Vercel
 ```bash
 cd vercel && vercel deploy
-```
-
-### Cloudflare Workers
-```bash
-cd worker && npx wrangler deploy
 ```
 
 **环境变量**: `XIAODU_APP_KEY`, `XIAODU_SECRET_KEY`
