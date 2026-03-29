@@ -4,11 +4,17 @@
 
 详细说明请查看 [SKILL.md](xiaodu-skill/SKILL.md)。
 
-## 限制
+## 支持范围
 
-- 设备需支持 DuerOS API
-- 每个设备有独立的 `client_id`，控制时必须使用设备返回的 `client_id`
-- Token 需定期刷新，失败时需重新授权
+### ✅ 支持
+- 小度智能终端（有屏幕音箱、无屏音箱等）
+- `list_user_devices` - 获取设备列表
+- `control_xiaodu` - 开放式控制（发送语音指令）
+- `xiaodu_speak` - 文字播报（朗读文本）
+- `xiaodu_take_photo` - 触发设备拍照
+
+### ❌ 不支持
+- IoT 智能家居设备（灯光、空调等）
 
 ## 架构设计
 
