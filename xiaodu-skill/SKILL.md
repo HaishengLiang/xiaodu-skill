@@ -69,13 +69,6 @@ Token 保存在 `~/.xiaodu/credentials.json`，客户端自动处理刷新。
 | `/auth-url` | GET | 获取百度授权链接 |
 | `/exchange` | POST | 用授权码换取 Token |
 
-### Cloudflare Worker 部署
-
-```bash
-cd worker
-npx wrangler deploy
-```
-
 ### Vercel 部署
 
 ```bash
