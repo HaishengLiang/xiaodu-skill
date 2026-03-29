@@ -44,3 +44,7 @@ cd vercel && vercel deploy
 **环境变量**: `XIAODU_APP_KEY`, `XIAODU_SECRET_KEY`
 
 **本地配置**: 修改 `xiaodu-skill/scripts/common/config.env` 中的 `XIAODU_WORKER_URL` 为你的部署地址。
+
+## 鸣谢
+
+- 本项目在[LINUX DO](https://linux.do/) 社区 进行分享与交流，感谢社区的支持与反馈
