@@ -40,12 +40,20 @@
 
 ### Claude Code
 
-在 `~/.claude/settings.json` 中添加：
+将 `xiaodu-skill` 目录链接或复制到 Claude Code 的 skills 目录：
+
+```bash
+ln -s /path/to/skills/xiaodu-skill ~/.claude/skills/xiaodu-skill
+```
+
+Claude Code 从 `~/.claude/skills/` 加载技能，每个子目录需包含 `SKILL.md`。
+
+在 `settings.json` 中注册：
 
 ```json
 {
   "skills": {
-    "xiaodu": "/path/to/skills/xiaodu-skill"
+    "xiaodu": "~/.claude/skills/xiaodu-skill"
   }
 }
 ```
