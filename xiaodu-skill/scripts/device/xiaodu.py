@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "../auth"))
 from config import load_config
 from get_token import get_token
 
-DEFAULT_SAVE_DIR = os.path.expanduser("~/.xiaodu")
+DEFAULT_SAVE_DIR = os.path.join(os.path.expanduser("~"), ".xiaodu")
 
 
 def get_save_dir():
