@@ -27,8 +27,8 @@ def get_save_dir():
 
 
 def save_photo(image_data, save_dir):
-    """保存图片到 截图/{日期}/ 目录，文件名用 UUID"""
-    screenshot_dir = os.path.join(save_dir, "截图", date.today().isoformat())
+    """保存图片到 screenshots/{日期}/ 目录，文件名用 UUID"""
+    screenshot_dir = os.path.join(save_dir, "screenshots", date.today().isoformat())
     os.makedirs(screenshot_dir, exist_ok=True)
 
     filename = f"{uuid.uuid4()}.jpg"
