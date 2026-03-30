@@ -16,15 +16,13 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "../auth"))
 from config import load_config
 from get_token import get_token
 
-DEFAULT_SAVE_DIR = os.path.join(os.path.expanduser("~"), ".xiaodu")
-
 
 def get_save_dir():
-    """获取图片保存目录，默认与授权文件相同"""
+    """获取图片保存目录，默认 ~/.xiaodu"""
     config = load_config()
     save_dir = config.get("XIAODU_SAVE_DIR", "").strip()
     if not save_dir:
-        save_dir = DEFAULT_SAVE_DIR
+        save_dir = os.path.join(os.path.expanduser("~"), ".xiaodu")
     return os.path.expanduser(save_dir)
 
 
