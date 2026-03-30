@@ -60,6 +60,17 @@ python3 scripts/device/xiaodu.py photo <cuid> [client_id]
 
 Token 保存在 `~/.xiaodu/credentials.json`，客户端自动处理刷新。
 
+## 配置
+
+配置文件位于 `scripts/common/config.env`：
+
+| 配置项 | 说明 | 默认值 |
+|--------|------|--------|
+| `XIAODU_WORKER_URL` | Worker API 地址 | - |
+| `XIAODU_SAVE_DIR` | 图片保存根目录 | `~/.xiaodu` |
+
+拍照图片保存在 `{XIAODU_SAVE_DIR}/截图/{日期}/` 目录下，文件名使用 UUID。
+
 ## Worker API 端点
 
 | 端点 | 方法 | 功能 |

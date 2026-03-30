@@ -5,6 +5,8 @@ import json
 import os
 import subprocess
 import sys
+import uuid
+from datetime import date
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_FILE = os.path.join(SCRIPT_DIR, "devices.json")
@@ -13,6 +15,46 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "../common"))
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "../auth"))
 from config import load_config
 from get_token import get_token
+
+DEFAULT_SAVE_DIR = os.path.expanduser("~/.xiaodu")
+
+
+def get_save_dir():
+    """获取图片保存目录，默认与授权文件相同"""
+    config = load_config()
+    save_dir = config.get("XIAODU_SAVE_DIR", "").strip()
+    if not save_dir:
+        save_dir = DEFAULT_SAVE_DIR
+    return os.path.expanduser(save_dir)
+
+
+def save_photo(image_data, save_dir):
+    """保存图片到 截图/{日期}/ 目录，文件名用 UUID"""
+    screenshot_dir = os.path.join(save_dir, "截图", date.today().isoformat())
+    os.makedirs(screenshot_dir, exist_ok=True)
+
+    filename = f"{uuid.uuid4()}.jpg"
+    filepath = os.path.join(screenshot_dir, filename)
+
+    # image_data 可以是 URL 或 base64
+    if image_data.startswith("http"):
+        # 下载图片
+        result = subprocess.run(
+            ["curl", "-s", "-o", filepath, image_data],
+            capture_output=True, timeout=30
+        )
+        if result.returncode != 0:
+            return None, f"下载失败: {result.stderr}"
+    else:
+        # base64
+        import base64
+        try:
+            with open(filepath, "wb") as f:
+                f.write(base64.b64decode(image_data))
+        except Exception as e:
+            return None, f"保存失败: {e}"
+
+    return filepath, None
 
 
 def mcp_call(tool_name, arguments):
@@ -272,7 +314,22 @@ def cmd_photo(cuid=None, client_id=None):
     elif result:
         content = result.get("content", [])
         if content:
-            print(content[0].get("text", ""))
+            text = content[0].get("text", "")
+            try:
+                photo_data = json.loads(text)
+                image_url = photo_data.get("image_url", "")
+                if image_url:
+                    save_dir = get_save_dir()
+                    filepath, save_err = save_photo(image_url, save_dir)
+                    if save_err:
+                        print(f"警告: {save_err}")
+                        print(f"图片链接: {image_url}")
+                    else:
+                        print(f"图片已保存: {filepath}")
+                else:
+                    print(text)
+            except json.JSONDecodeError:
+                print(text)
 
 
 def usage():
