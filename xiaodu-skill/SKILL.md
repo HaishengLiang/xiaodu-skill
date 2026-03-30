@@ -13,13 +13,11 @@ compatibility: curl, python3
 ### 步骤1：生成授权链接
 
 ```bash
-python3 ~/.claude/skills/xiaodu-skill/scripts/auth/init_auth.py
-```
+# 授权（生成授权链接）
+python3 scripts/auth/init_auth.py
 
-### 步骤2：用授权码换取 Token
-
-```bash
-python3 ~/.claude/skills/xiaodu-skill/scripts/auth/init_auth.py <授权码>
+# 用授权码换取 Token
+python3 scripts/auth/init_auth.py <授权码>
 ```
 
 Token 会自动保存到 `~/.xiaodu/credentials.json`，客户端自动管理刷新。
@@ -28,20 +26,20 @@ Token 会自动保存到 `~/.xiaodu/credentials.json`，客户端自动管理刷
 
 ```bash
 # 列出设备
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py list
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py list --refresh  # 刷新缓存
+python3 scripts/device/xiaodu.py list
+python3 scripts/device/xiaodu.py list --refresh  # 刷新缓存
 
 # 控制设备
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py control "播放音乐"
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py control "播放音乐" <cuid> [client_id]
+python3 scripts/device/xiaodu.py control "播放音乐"
+python3 scripts/device/xiaodu.py control "播放音乐" <cuid> [client_id]
 
 # 让小度播报
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py speak "你好"
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py speak "你好" <cuid> [client_id]
+python3 scripts/device/xiaodu.py speak "你好"
+python3 scripts/device/xiaodu.py speak "你好" <cuid> [client_id]
 
 # 拍照
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py photo
-python3 ~/.claude/skills/xiaodu-skill/scripts/device/xiaodu.py photo <cuid> [client_id]
+python3 scripts/device/xiaodu.py photo
+python3 scripts/device/xiaodu.py photo <cuid> [client_id]
 ```
 
 ## 重要概念
